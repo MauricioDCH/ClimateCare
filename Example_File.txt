@@ -5,3 +5,4 @@ Project's name: ClimateCare.
 About the project: The project will help to the government to safe our planet.
 
 Example_File: It's just a file to be committed.
+Branch develop created
