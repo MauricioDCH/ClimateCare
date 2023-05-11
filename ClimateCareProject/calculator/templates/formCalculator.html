@@ -1,0 +1,10 @@
+{% extends 'homeLogin.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h3>Si no consumes alguno de estos, pon el valor en cero en número (0).</h3>
+    {{ form.as_p }}
+    <button type="submit">Calcular huella de carbono</button>
+</form>
+</body>
+{% endblock content %}

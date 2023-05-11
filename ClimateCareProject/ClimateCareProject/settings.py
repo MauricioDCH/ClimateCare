@@ -10,14 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+'''
+COLORES
+Azul profundo: #07468C
+Azul medianoche: #087196
+Verde azulado: #008080
+Verde esmeralda: #08966E
+Verde bosque: #078C41
+'''
+
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -42,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'artificialIntelligence',
+    'calculator',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +70,7 @@ ROOT_URLCONF = 'ClimateCareProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'ClimateCareProject/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,16 +83,23 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'ClimateCareProject.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'ClimateCareDB',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host':  'mongodb+srv://MauricioDCH:ClimateCare2023.01@climatecarecluster.ubshcsc.mongodb.net/ClimateCareDB'
+        }
     }
 }
 
@@ -123,8 +141,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, "static"),
 ]
+
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

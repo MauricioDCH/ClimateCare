@@ -1,0 +1,15 @@
+{% extends 'homeLogin.html' %}
+{% block content %}
+<h1>Página de clasificación de desperdicios</h1>
+<div class="container-fluid mt-3">
+</div>
+{% load static %}
+<h3>En esta página el sistema podrá ayudarte a decidir cuál es ese material</h3>
+<form method="post" enctype = "multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="sentFile"/></br></br>
+    <input type="submit" name = "submit" value="Upload"/></br>
+    <img src="{% static 'test.jpg' %}?{% now 'U' %}">
+    <h4>{{caption}}</h4>
+</form>
+{% endblock content %}

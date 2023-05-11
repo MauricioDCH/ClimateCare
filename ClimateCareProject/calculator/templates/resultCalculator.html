@@ -1,0 +1,10 @@
+{% extends 'homeLogin.html' %}
+{% block content %}
+  <h1>Resultados del cálculo de tu huella de carbono.</h1>
+  <ul>
+    {% for dato  in datos %}
+      <h5>{{ dato }} </h5>
+    {% endfor %}
+
+    <h3> {{ resultados }}</h3>
+{% endblock content %}
