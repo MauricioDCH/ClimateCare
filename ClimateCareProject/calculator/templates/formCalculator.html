@@ -1,10 +1,19 @@
 {% extends 'homeLogin.html' %}
+{% load static %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <h3>Si no consumes alguno de estos, pon el valor en cero en número (0).</h3>
-    {{ form.as_p }}
-    <button type="submit">Calcular huella de carbono</button>
-</form>
-</body>
-{% endblock content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'formCalculator.css' %}">
+</head>
+<div class="form-container">
+    <h2><dt>Formulario Huella de Carbono</dt></h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <h5><dt>{{ field.label_tag }}</dt></h5>
+            <dt>{{ field }}</dt>
+        {% endfor %}
+        <button type="submit">Enviar</button>
+        <button type="reset">Cancelar</button>
+    </form>
+</div>
+{% endblock %}

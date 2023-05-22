@@ -1,0 +1,79 @@
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color:green;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-container h2 {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+
+
+.form-container form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.form-container button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.form-container button[type="submit"] {
+    background-color: rgb(7, 70, 140);
+    color: white;
+}
+
+.form-container button[type="reset"] {
+    background-color: red;
+    color: white;
+}
+
+.form-container button:hover {
+    opacity: 0.8;
+}
+.form-container input[type="text"]:hover,
+.form-container input[type="number"]:hover {
+    transition: border-color 0.3s ease;
+    border-color: #c5c8cd;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.form-container button[type="submit"]:hover,
+.form-container button[type="reset"]:hover {
+    background-color: #028E12; /* Nuevo color al pasar el cursor sobre el botón */
+}
+

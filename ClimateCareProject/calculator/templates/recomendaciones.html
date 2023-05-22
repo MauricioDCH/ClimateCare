@@ -1,0 +1,19 @@
+{% extends 'homeLogin.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'recomendaciones.css' %}">
+</head>
+<div class="resultados-container">
+  <div class="cuadro-grande">
+    <div class="encabezados" style="background-color: white; color: black">
+        <h1>Recomendaciones para reducir tu huella de carbono</h1>
+        <ol>
+            {% for recomendacion in recomendaciones %}
+                <li class="recomendacion">{{ loop.index }}{{ recomendacion }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+  </div>
+</div>
+{% endblock content %}

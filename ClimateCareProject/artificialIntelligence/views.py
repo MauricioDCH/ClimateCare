@@ -9,7 +9,6 @@ from keras.models import model_from_json
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
 @login_required
 def garbageClassification(request):
     json_config_file =os.path.join(settings.STATICFILES_DIRS[0], 'model_config_Final.json')
@@ -22,22 +21,68 @@ def garbageClassification(request):
     model.load_weights(weights_path)
 
     if request.method == 'POST':
-        handle_uploaded_file(request.FILES['sentFile'])
+        if 'sentFile' in request.FILES:
+            handle_uploaded_file(request.FILES['sentFile'])
 
-        image = tf.keras.preprocessing.image.load_img('static/test.jpg', target_size=(320,320,3))
-        input_arr = tf.keras.preprocessing.image.img_to_array(image)
-        input_arr = np.array([input_arr])
+            image = tf.keras.preprocessing.image.load_img('static/test.jpg', target_size=(320,320,3))
+            input_arr = tf.keras.preprocessing.image.img_to_array(image)
+            input_arr = np.array([input_arr])
 
-        categories =['baterías',           'biológicos',   'vidrio café',
-                    'cartón',             'vestimentas',  'vidrio verde', 
-                    'metal',              'papel',        'plástico', 
-                    'tenis o zapatos',    'basura común', 'vidrio blanco o transparente']
-        
-        probs = model.predict(input_arr)[0]
-        pos = np.argmax(probs)
-        category = categories[pos]
-        caption = f'La imagen que subiste es de la categoría: {category}, y tiene una probabilidad del {probs[pos]*100:.2f}% de que lo sea.'
-        return render(request, 'garbageClassificationOutput.html', {'caption': caption})
+            categories = ['baterías', 'biológicos', 'vidrio café', 'cartón', 'vestimentas', 'vidrio verde',
+                        'metal', 'papel', 'plástico', 'tenis o zapatos', 'basura común', 'vidrio blanco o transparente']
+
+            probs = model.predict(input_arr)[0]
+            pos = np.argmax(probs)
+            category = categories[pos]
+            caption = f'La imagen que subiste es de la categoría: {category}, y tiene una probabilidad del {probs[pos]*100:.2f}% de que lo sea.'
+
+
+            recicladoras = {
+                "Baterías":["Recopila","American in sap","Lito"],
+                "Biológicos":["Emvarias","Centro de Acopio N° 1","Centro de Acopio N° 3"],
+                "Vidrio café":["Intermediaria de reciclaje","Centro de Acopio N° 1","Reciclarte"],
+                "Cartón":["Recickar Ecoplanet","Intermediaria de reciclaje","Centro de Acopio N° 1"],
+                "Vestimentas":["Retos innovacion Medellin","Comfama","Riochevi."],
+                "Vidrio verde":["Intermediaria de reciclaje","Centro de Acopio N° 1","Reciclarte"],
+                "Metal":["Recickar Ecoplanet","Intermediaria de reciclaje","Centro de Acopio N° 1"],
+                "Papel":["Recickar Ecoplanet","Centro de Acopio N° 1","Reciclar Ecoplanet"],
+                "Plástico":["Recickar Ecoplanet","Intermediaria de reciclaje","Reciclarte"],
+                "Tenis o zapatos":["Retos innovacion Medellin","Comfama","Riochevi."],
+                "Basura común":["Emvarias","Centro de Acopio N° 1","Centro de Acopio N° 2"],
+                "Vidrio blanco o transparente":["Intermediaria de reciclaje","Centro de Acopio N° 1","Emvarias"]
+            }
+
+            listasEmpresas = []
+
+            if category == 'baterías':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'biológicos':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'vidrio café':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'cartón':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'vestimentas':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'vidrio verde':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'metal':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'papel':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'plástico':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'tenis o zapatos':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'basura común':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+            elif category == 'vidrio blanco o transparente':
+                listasEmpresas.extend(recicladoras[category.capitalize()])
+
+            
+            return render(request, 'garbageClassificationOutput.html', {'caption': caption, 'listasEmpresas': listasEmpresas})
+        else:
+            return render(request, 'garbageClassificationInput.html')
     else:
         return render(request, 'garbageClassificationInput.html')
 

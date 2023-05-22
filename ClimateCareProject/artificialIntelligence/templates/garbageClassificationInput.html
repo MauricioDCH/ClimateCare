@@ -1,4 +1,43 @@
 {% extends 'homeLogin.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'inputGarbage.css' %}">
+</head>
+<div class="container mt-5">
+    <div class="cuadro-grande">
+        <div class="encabezados">
+            <h1 class="text-center">Página de clasificación de desperdicios</h1>
+            <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+            <h2 class="text-center">En esta página, el sistema puede ayudarte a decidir el tipo de material</h2>
+                        <form method="post" enctype="multipart/form-data" class="text-center mt-5">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                    <h4>Selecciona una imagen de su galería.</h4>
+                                    <label for="sentFile"></label>
+                                    <input type="file" class="form-control-file" id="sentFile" name="sentFile">
+                                </div></br>
+                                <button type="submit" class="btn" style="background-color: #07468C; color:white">Cargar imagen</button>
+                        </form>
+                    <h6 class="text-center mt-5">Última imagen que se procesó.</h6>
+            <div class="text-center mt-5">
+            <img src="{% static 'test.jpg' %}?{% now 'U' %}" class="img-fluid" alt="Image">
+            <h4>{{ caption }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+{% comment %} {% extends 'homeLogin.html' %}
 {% block content %}
 <h1>Página de clasificación de desperdicios</h1>
 <div class="container-fluid mt-3">
@@ -12,4 +51,4 @@
     <img src="{% static 'test.jpg' %}?{% now 'U' %}">
     <h4>{{caption}}</h4>
 </form>
-{% endblock content %}
+{% endblock content %} {% endcomment %}

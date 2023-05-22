@@ -1,10 +1,20 @@
 {% extends 'homeLogin.html' %}
+{% load static %}
 {% block content %}
-  <h1>Resultados del cálculo de tu huella de carbono.</h1>
-  <ul>
-    {% for dato  in datos %}
-      <h5>{{ dato }} </h5>
-    {% endfor %}
-
-    <h3> {{ resultados }}</h3>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'results.css' %}">
+</head>
+<div class="resultados-container">
+  <div class="cuadro-grande">
+    <div class="encabezados" style="background-color: green;">
+      <h1><dt>El resultado del cálculo</dt></h1>
+      <h1><dt>de tu huella de carbono.</dt></h1>
+    </div>
+    <div class="resultado">
+      <h2><dt>{{ resultados }}<dt></h2>
+    </div>
+  </div>
+  <div class="button-container"style="margin-top: 290px;">
+    <button type="button" onclick="window.location.href='{% url 'recomendaciones' %}'" class="btn" style="background-color: #07468C; color:white">Cargar recomendaciones</button>
+  </div>  
 {% endblock content %}

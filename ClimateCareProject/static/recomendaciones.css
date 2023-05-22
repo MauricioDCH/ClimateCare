@@ -1,0 +1,25 @@
+.resultados-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.encabezados {
+    background-color: rgb(7, 70, 140);
+    padding: 10px;
+    color: rgb(255, 0, 0);
+    text-align: center;
+}
+
+.resultado {
+    background-color: rgb(255, 0, 0);
+    padding: 20px;
+    text-align: center;
+}
+
+.cuadro-grande {
+    background-color:green;
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+  }

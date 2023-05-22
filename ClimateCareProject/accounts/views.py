@@ -5,6 +5,12 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
+def home(request):
+    return render(request, 'HomePageNoLog.html')
+
+def homeLog(request):
+    return render(request, 'HomePage.html')
+
 def signupUsers(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)

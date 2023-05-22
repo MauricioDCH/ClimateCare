@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from artificialIntelligence import views as AIViews
+from accounts import views as accountsViews 
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls'), name = 'accounts'),
-    path('calculator/', include('calculator.urls'), name = 'calculator'),
+    path('', accountsViews.home, name = 'homePage'),
+    path('homeLog/', accountsViews.homeLog, name='homePageLog'),
+    path('accounts', include('accounts.urls'), name = 'accounts'),
+    path('calculator/', include('calculator.urls'), name = 'calculatorV'),
     path('classification/', include('artificialIntelligence.urls'), name = 'garbageClassification'),
+    path('application/', include('application.urls'), name = 'application'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

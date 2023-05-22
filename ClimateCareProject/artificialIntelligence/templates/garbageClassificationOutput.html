@@ -1,13 +1,32 @@
 {% extends 'homeLogin.html' %}
-{% block content %}
-<h1>Página de clasificación de desperdicios</h1>
-<div class="container-fluid mt-3">
-</div>
 {% load static %}
-<h3>En esta página el sistema podrá ayudarte a decidir cuál es ese material</h3>
-<form method="post" enctype = "multipart/form-data">
-    {% csrf_token %}
-    <img src="{% static 'test.jpg' %}?{% now 'U' %}">
-    <h4>{{caption}}</h4>
-</form>
+{% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'outputGarbage.css' %}">
+</head>
+<div class="container mt-5">
+  <div class="cuadro-grande">
+    <div class="encabezados">
+  <h1 class="text-center"><dt>Página de clasificación de desperdicios</dt></h1>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <h3 class="text-center">En esta página, el sistema puede ayudarte a decidir el tipo de material</h3>
+      <form method="post" enctype="multipart/form-data" class="text-center mt-5">
+        {% csrf_token %}
+        <img src="{% static 'test.jpg' %}?{% now 'U' %}" class="img-fluid" alt="Image">
+        <h4>{{ caption }}</h4>
+      </form>
+      <p class="text-center mt-5">
+        <a href="http://127.0.0.1:8000/classification/" class="boton-regreso" style="background-color: rgb(7, 70, 140); color: white; padding: 12px 24px; border-radius: 5px;">Regresar</a>
+      </p>      
+    </div>
+  </div>
+</br></br>
+
+  <h4><dt>EMPRESAS QUE PUEDEN AYUDARTE A RECICLAR TU BASURA</dt></h4>
+
+  {% for empresa in listasEmpresas %}
+    <h5>{{ empresa }}</h5>
+  {% endfor %}
+</div>
 {% endblock content %}

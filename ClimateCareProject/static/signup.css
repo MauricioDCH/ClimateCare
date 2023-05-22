@@ -1,0 +1,28 @@
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: rgb(7, 70, 140);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+.card-title {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgb(7, 70, 140);
+    color: #FFF;
+}
+
+
+
+.white-form{
+    background-color: rgb(7, 70, 140);
+    color:#FFF
+}
+
+.center-button {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}

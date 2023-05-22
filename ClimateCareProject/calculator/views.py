@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import HuellaDeCarbonoForm
 from django.contrib.auth.decorators import login_required
+import random
 
 @login_required
 def calcular_huella(request):
@@ -9,56 +10,51 @@ def calcular_huella(request):
         if form.is_valid():
             # Inicializar variables
 
-            tablaHuella1,idUsuario,idRetroalimentacion,idImagen,idCompania,consumoGasolina,consumoDiesel,consumoGasNaturalComprimido,consumoGasNaturalLicuado = 0,0,0,0,0,0,0,0,0
-            consumoCarbonMineral,consumoCarbonVegetal,consumoLenia,cantidadGanadoBovino,cantidadGanadoOvino,cantidadGanadoPorcino,cantidadGanadoCaprino=0,0,0,0,0,0,0
-            cantidadAvicola,consumoElectricidad,generacionElectricidadRenovable,generacionElectricidadNoRenovableCarbon,generacionElectricidadNoRenovableHidraulica=0,0,0,0,0
-            generacionElectricidadNoRenovableGasNatural,generacionElectricidadNoRenovablePetroleo,generacionElectricidadNoRenovableNuclear,consumoPapel,consumoMoviles=0,0,0,0,0
-            consumoPortatiles,consumoCemento,consumoVidrio,consumoPlastico,consumoAluminio,consumoTV,consumoLavadora,consumoNevera,consumoMicroondas,consumoOtrosElectronicos=0,0,0,0,0,0,0,0,0,0
+            consumoGasolina,consumoDiesel,consumoGasNaturalComprimido,consumoGasNaturalLicuado = 0,0,0,0
+            consumoCarbonMineral,consumoCarbonVegetal,cantidadGanadoBovino,cantidadGanadoOvino,cantidadGanadoPorcino=0,0,0,0,0
+            cantidadAvicola,consumoElectricidad,generacionElectricidadNoRenovableHidraulica=0,0,0
+            generacionElectricidadNoRenovablePetroleo,generacionElectricidadNoRenovableNuclear,consumoPapel,consumoMoviles=0,0,0,0
+            consumoPortatiles,consumoPlastico,consumoTV,consumoLavadora,consumoNevera=0,0,0,0,0
             
-            tablaHuella2,consumoMotocicleta,consumoAutomovilPequeno,consumoAutomovilMediano,consumoAutomovilGrande,consumoAutomovilDeportivo,= 0,0,0,0,0,0
+            consumoMotocicleta,consumoAutomovilMediano,consumoAutomovilGrande,consumoAutomovilDeportivo,= 0,0,0,0
             consumoSUVPequeno,consumoSUVMediano,consumoSUVGrande,consumoSUVDeportivo,consumoAutobus,consumoAvion,consumoBarco,consumoTren,consumoAgua,consumoRes= 0,0,0,0,0,0,0,0,0,0
-            consumoCerdo,consumoPollo,consumoPescado,consumoFrutasYVerduras,consumoHuevos,consumoLeche,consumoQueso,consumoCacao,consumoCafe,consumoAzucar,consumoCereal = 0,0,0,0,0,0,0,0,0,0,0
-            consumoAceite,consumoBebidasAlcoholicas =0,0
+            consumoCerdo,consumoPollo,consumoPescado = 0,0,0
 
-            tablaHuella1 = {'tablaHuella1':{'entradaUsuario':tablaHuella1,'factorHuella':0,'unidades':""},'idUsuario':  {'entradaUsuario':idUsuario,'factorHuella':0,'unidades':""},
-                    'idRetroalimentacion':{'entradaUsuario':idRetroalimentacion,'factorHuella':0,'unidades':""},'idImagen':{'entradaUsuario':idImagen,'factorHuella':0,'unidades':""},
-                    'idCompania':{'entradaUsuario':idCompania,'factorHuella':0,'unidades':""},'consumoGasolina':{'entradaUsuario':consumoGasolina,'factorHuella':2.32,'unidades':'kgCO2e/L'},
-                    'consumoDiesel':{'entradaUsuario':consumoDiesel,'factorHuella':2.67,'unidades':'kgCO2e/L'},'consumoGasNaturalComprimido':{'entradaUsuario':consumoGasNaturalComprimido,'factorHuella':2.75,'unidades':'kgCO2e/L'},
-                    'consumoGasNaturalLicuado':{'entradaUsuario':consumoGasNaturalLicuado,'factorHuella':1.79,'unidades':'kgCO2e/L'},'consumoCarbonMineral':{'entradaUsuario':consumoCarbonMineral,'factorHuella':2.91,'unidades':'kgCO2e/Kg'},
-                    'consumoCarbonVegetal':{'entradaUsuario':consumoCarbonVegetal,'factorHuella':3.67,'unidades':'kgCO2e/Kg'},'consumoLenia':{'entradaUsuario':consumoLenia,'factorHuella':1.98,'unidades':'kgCO2e/Kg'},
-                    'cantidadGanadoBovino':{'entradaUsuario':cantidadGanadoBovino,'factorHuella':75.0,'unidades':'kgCO2e/cabeza/ano'},'cantidadGanadoOvino':{'entradaUsuario':cantidadGanadoOvino,'factorHuella':17.0,'unidades':'kgCO2e/cabeza/ano'},
-                    'cantidadGanadoPorcino':{'entradaUsuario':cantidadGanadoPorcino,'factorHuella':27.0,'unidades':'kgCO2e/cabeza/ano'},'cantidadGanadoCaprino':{'entradaUsuario':cantidadGanadoCaprino,'factorHuella':1.5,'unidades':'kgCO2e/cabeza/ano'},
-                    'cantidadAvicola':{'entradaUsuario':cantidadAvicola,'factorHuella':0.02,'unidades':'kgCO2e/cabeza/ciclo'},'consumoElectricidad':{'entradaUsuario':consumoElectricidad,'factorHuella':0.475,'unidades':'kgCO2e/kWh'},
-                    'generacionElectricidadRenovable':{'entradaUsuario':generacionElectricidadRenovable,'factorHuella':0.0,'unidades':'kgCO2e/kWh'},
-                    'generacionElectricidadNoRenovableCarbon':{'entradaUsuario':generacionElectricidadNoRenovableCarbon,'factorHuella':0.82,'unidades':'kgCO2e/kWh'},
+            tablaHuella1 = {'consumoGasolina':{'entradaUsuario':consumoGasolina,'factorHuella':2.32,'unidades':'kgCO2e/L'},
+                    'consumoDiesel':{'entradaUsuario':consumoDiesel,'factorHuella':2.67,'unidades':'kgCO2e/L'},
+                    'consumoGasNaturalComprimido':{'entradaUsuario':consumoGasNaturalComprimido,'factorHuella':2.75,'unidades':'kgCO2e/L'},
+                    'consumoGasNaturalLicuado':{'entradaUsuario':consumoGasNaturalLicuado,'factorHuella':1.79,'unidades':'kgCO2e/L'},
+                    'consumoCarbonMineral':{'entradaUsuario':consumoCarbonMineral,'factorHuella':2.91,'unidades':'kgCO2e/Kg'},
+                    'consumoCarbonVegetal':{'entradaUsuario':consumoCarbonVegetal,'factorHuella':3.67,'unidades':'kgCO2e/Kg'},
+                    'cantidadGanadoBovino':{'entradaUsuario':cantidadGanadoBovino,'factorHuella':75.0,'unidades':'kgCO2e/cabeza/año'},
+                    'cantidadGanadoOvino':{'entradaUsuario':cantidadGanadoOvino,'factorHuella':17.0,'unidades':'kgCO2e/cabeza/año'},
+                    'cantidadGanadoPorcino':{'entradaUsuario':cantidadGanadoPorcino,'factorHuella':27.0,'unidades':'kgCO2e/cabeza/año'},
+                    'cantidadAvicola':{'entradaUsuario':cantidadAvicola,'factorHuella':0.02,'unidades':'kgCO2e/cabeza/ciclo'},
+                    'consumoElectricidad':{'entradaUsuario':consumoElectricidad,'factorHuella':0.475,'unidades':'kgCO2e/kWh'},
                     'generacionElectricidadNoRenovableHidraulica':{'entradaUsuario':generacionElectricidadNoRenovableHidraulica,'factorHuella':0.024,'unidades':'kgCO2e/kWh'},
-                    'generacionElectricidadNoRenovableGasNatural':{'entradaUsuario':generacionElectricidadNoRenovableGasNatural,'factorHuella':0.18,'unidades':'kgCO2e/kWh'},
                     'generacionElectricidadNoRenovablePetroleo':{'entradaUsuario':generacionElectricidadNoRenovablePetroleo,'factorHuella':0.51,'unidades':'kgCO2e/kWh'},
                     'generacionElectricidadNoRenovableNuclear':{'entradaUsuario':generacionElectricidadNoRenovableNuclear,'factorHuella':0.01,'unidades':'kgCO2e/kWh'},
                     'consumoPapel':{'entradaUsuario':consumoPapel,'factorHuella':0.83,'unidades':'kgCO2e/Kg'},'consumoMoviles':{'entradaUsuario':consumoMoviles,'factorHuella':60.0,'unidades':'kgCO2e/unidad'},
-                    'consumoPortatiles':{'entradaUsuario':consumoPortatiles,'factorHuella':0.0,'unidades':'kgCO2e/unidad'},'consumoCemento':{'entradaUsuario':consumoCemento,'factorHuella':0.58,'unidades':'kgCO2e/Kg'},
-                    'consumoVidrio':{'entradaUsuario':consumoVidrio,'factorHuella':0.57,'unidades':'kgCO2e/Kg'},'consumoPlastico':{'entradaUsuario':consumoPlastico,'factorHuella':6.0,'unidades':'kgCO2e/Kg'},
-                    'consumoAluminio':{'entradaUsuario':consumoAluminio,'factorHuella':11.0,'unidades':'kgCO2e/Kg'},'consumoTV':{'entradaUsuario':consumoTV,'factorHuella':160.0,'unidades':'kgCO2e/unidades'},
-                    'consumoLavadora':{'entradaUsuario':consumoLavadora,'factorHuella':220.0,'unidades':'kgCO2e/unidad'},'consumoNevera':{'entradaUsuario':consumoNevera,'factorHuella':440.0,'unidades':'kgCO2e/unidad'},
-                    'consumoMicroondas':{'entradaUsuario':consumoMicroondas,'factorHuella':100.0,'unidades':'kgCO2e/unidad'},'consumoOtrosElectronicos':{'entradaUsuario':consumoOtrosElectronicos,'factorHuella':125,'unidades':'kgCO2e/unidad'},
-                            # }
-            ## Tabla Huella 2
-            # tablaHuella2={
-                    'tablaHuella1':{'entradaUsuario':tablaHuella1,'factorHuella':0,'unidades':""},'tablaHuella2':{'entradaUsuario':tablaHuella1,'factorHuella':0,'unidades':""},
-                    'consumoMotocicleta':{'entradaUsuario':consumoMotocicleta,'factorHuella':0.12,'unidades':'kgCO2e/Km'},'consumoAutomovilPequeno':{'entradaUsuario':consumoAutomovilPequeno,'factorHuella':0.16,'unidades':'kgCO2e/Km'},
-                    'consumoAutomovilMediano':{'entradaUsuario':consumoAutomovilMediano,'factorHuella':0.20,'unidades':'kgCO2e/Km'},'consumoAutomovilGrande':{'entradaUsuario':consumoAutomovilGrande,'factorHuella':0.24,'unidades':'kgCO2e/Km'},
-                    'consumoAutomovilDeportivo':{'entradaUsuario':consumoAutomovilDeportivo,'factorHuella':0.25,'unidades':'kgCO2e/Km'},'consumoSUVPequeno':{'entradaUsuario':consumoSUVPequeno,'factorHuella':0.20,'unidades':'kgCO2e/Km'},
-                    'consumoSUVMediano':{'entradaUsuario':consumoSUVMediano,'factorHuella':0.24,'unidades':'kgCO2e/Km'},'consumoSUVGrande':{'entradaUsuario':consumoSUVGrande,'factorHuella':0.28,'unidades':'kgCO2e/Km'},
-                    'consumoSUVDeportivo':{'entradaUsuario':consumoSUVDeportivo,'factorHuella':0.35,'unidades':'kgCO2e/Km'},'consumoAutobus':{'entradaUsuario':consumoAutobus,'factorHuella':0.07,'unidades':'kgCO2e/Km'},
-                    'consumoAvion':{'entradaUsuario':consumoAvion,'factorHuella':0.25,'unidades':'kgCO2e/Km'},'consumoBarco':{'entradaUsuario':consumoBarco,'factorHuella':0.08,'unidades':'kgCO2e/pKm'},
-                    'consumoTren':{'entradaUsuario':consumoTren,'factorHuella':0.04,'unidades':'kgCO2e/Km'},'consumoAgua':{'entradaUsuario':consumoAgua,'factorHuella':0.00005,'unidades':'kgCO2e/L'},
-                    'consumoRes':{'entradaUsuario':consumoRes,'factorHuella':27.0,'unidades':'kgCO2e/Kg'},'consumoCerdo':{'entradaUsuario':consumoCerdo,'factorHuella':7.0,'unidades':'kgCO2e/Kg'},
-                    'consumoPollo':{'entradaUsuario':consumoPollo,'factorHuella':6.5,'unidades':'kgCO2e/Kg'},'consumoPescado':{'entradaUsuario':consumoPescado,'factorHuella':4.8,'unidades':'kgCO2e/Kg'},
-                    'consumoFrutasYVerduras':{'entradaUsuario':consumoFrutasYVerduras,'factorHuella':0.4,'unidades':'kgCO2e/Kg'},'consumoHuevos':{'entradaUsuario':consumoHuevos,'factorHuella':2.7,'unidades':'kgCO2e/Kg'},
-                    'consumoLeche':{'entradaUsuario':consumoLeche,'factorHuella':1.9,'unidades':'kgCO2e/L'},'consumoQueso':{'entradaUsuario':consumoQueso,'factorHuella':13.5,'unidades':'kgCO2e/Kg'},
-                    'consumoCacao':{'entradaUsuario':consumoCacao,'factorHuella':4.4,'unidades':'kgCO2e/Kg'},'consumoCafe':{'entradaUsuario':consumoCafe,'factorHuella':17.0,'unidades':'kgCO2e/Kg'},
-                    'consumoAzucar':{'entradaUsuario':consumoAzucar,'factorHuella':1.1,'unidades':'kgCO2e/Kg'},'consumoCereal':{'entradaUsuario':consumoCereal,'factorHuella':1.3,'unidades':'kgCO2e/Kg'},
-                    'consumoAceite':{'entradaUsuario':consumoAceite,'factorHuella':2.3,'unidades':'kgCO2e/Kg'},'consumoBebidasAlcoholicas':{'entradaUsuario':consumoBebidasAlcoholicas,'factorHuella':3.9,'unidades':'kgCO2e/L'}}
+                    'consumoPortatiles':{'entradaUsuario':consumoPortatiles,'factorHuella':0.0,'unidades':'kgCO2e/unidad'},
+                    'consumoPlastico':{'entradaUsuario':consumoPlastico,'factorHuella':6.0,'unidades':'kgCO2e/Kg'},
+                    'consumoTV':{'entradaUsuario':consumoTV,'factorHuella':160.0,'unidades':'kgCO2e/unidades'},
+                    'consumoLavadora':{'entradaUsuario':consumoLavadora,'factorHuella':220.0,'unidades':'kgCO2e/unidad'},
+                    'consumoNevera':{'entradaUsuario':consumoNevera,'factorHuella':440.0,'unidades':'kgCO2e/unidad'},
+                    'consumoMotocicleta':{'entradaUsuario':consumoMotocicleta,'factorHuella':0.12,'unidades':'kgCO2e/Km'},
+                    'consumoAutomovilMediano':{'entradaUsuario':consumoAutomovilMediano,'factorHuella':0.20,'unidades':'kgCO2e/Km'},
+                    'consumoAutomovilGrande':{'entradaUsuario':consumoAutomovilGrande,'factorHuella':0.24,'unidades':'kgCO2e/Km'},
+                    'consumoAutomovilDeportivo':{'entradaUsuario':consumoAutomovilDeportivo,'factorHuella':0.25,'unidades':'kgCO2e/Km'},
+                    'consumoSUVPequeno':{'entradaUsuario':consumoSUVPequeno,'factorHuella':0.20,'unidades':'kgCO2e/Km'},
+                    'consumoSUVMediano':{'entradaUsuario':consumoSUVMediano,'factorHuella':0.24,'unidades':'kgCO2e/Km'},'consumoSUVGrande':
+                    {'entradaUsuario':consumoSUVGrande,'factorHuella':0.28,'unidades':'kgCO2e/Km'},
+                    'consumoSUVDeportivo':{'entradaUsuario':consumoSUVDeportivo,'factorHuella':0.35,'unidades':'kgCO2e/Km'},
+                    'consumoAvion':{'entradaUsuario':consumoAvion,'factorHuella':0.25,'unidades':'kgCO2e/Km'},
+                    'consumoTren':{'entradaUsuario':consumoTren,'factorHuella':0.04,'unidades':'kgCO2e/Km'},
+                    'consumoRes':{'entradaUsuario':consumoRes,'factorHuella':27.0,'unidades':'kgCO2e/Kg'},
+                    'consumoCerdo':{'entradaUsuario':consumoCerdo,'factorHuella':7.0,'unidades':'kgCO2e/Kg'},
+                    'consumoPollo':{'entradaUsuario':consumoPollo,'factorHuella':6.5,'unidades':'kgCO2e/Kg'},
+                    'consumoPescado':{'entradaUsuario':consumoPescado,'factorHuella':4.8,'unidades':'kgCO2e/Kg'}
+                    }
 
             resultado = 0
             listaDatos = []
@@ -68,13 +64,156 @@ def calcular_huella(request):
                 unidades = value['unidades']
                 ingresos = form.cleaned_data[key]
                 resultado += ingresos * factorHuella
-                datos = key + " || " + str(ingresos) + " || " + str(factorHuella) + " || " + str(ingresos*factorHuella) + " || " + unidades
-                listaDatos.append(datos)
             resultado =str(round(resultado, 2)) + ' kgCO2e'
-            return render(request, 'resultCalculator.html',{'datos':listaDatos ,'resultados': resultado})#, 'form1':variables, 'form2':factoresHuella,'form3':total,'datos': datos}) 
+            return render(request, 'resultCalculator.html',{'resultados': resultado}) 
     else:
         form = HuellaDeCarbonoForm()
     return render(request, 'formCalculator.html', {'form': form})
+
+
+# @login_required
+def recomendaciones(request):
+    recomendaciones = {
+        "Eficiencia energética en el hogar":
+        [
+            "Reduce el consumo de energía en el hogar",
+            "Instala bombillas LED de bajo consumo.",
+            "Utiliza electrodomésticos eficientes energéticamente"
+            "Aprovecha la luz natural en lugar de encender luces durante el día.",
+            "Ajusta la temperatura del termostato para reducir el uso de calefacción y aire acondicionado.",
+            "Mejora el aislamiento de tu hogar.",
+            "Utiliza el lavavajillas y la lavadora con carga completa.",
+            "Desconecta los aparatos electrónicos cuando no los estés usando.",
+        ],
+        "Transporte sostenible":
+        [
+            "Conduce menos y utiliza el transporte público, camina o utiliza la bicicleta cuando sea posible.",
+            "Comparte coche con otros para reducir el número de vehículos en la carretera.",
+            "Elige vehículos con bajas emisiones de carbono, como los vehículos eléctricos.",
+            "Mantén tu coche en buenas condiciones para que funcione de manera eficiente.",
+            "Evita conducir a altas velocidades y acelerar y frenar bruscamente.",
+            "Evita el uso de aviones para viajes cortos."
+        ],
+        "Reducción de desechos y reciclaje":
+        [
+            "Evita el uso de productos desechables y opta por alternativas reutilizables.",
+            "Recicla tanto como sea posible.",
+            "Reduce el consumo de papel.",
+            "Utiliza bolsas reutilizables en lugar de bolsas de plástico desechables.",
+            "Aprovecha el compostaje.",
+            "Reduce el consumo de carne y lácteos.",
+            "Compra alimentos locales y de temporada.",
+            "Evita el desperdicio de alimentos."
+        ],
+            "Consumo consciente":
+        [
+                "Apoya a empresas y marcas sostenibles.",
+                "Compra productos usados o de segunda mano.",
+                "Evita el uso de productos químicos dañinos en el hogar y el jardín.",
+                "Reduce el consumo de productos empaquetados en plástico.",
+        ],
+        "Conservación del agua:":
+        [ 
+            "Ahorra agua reduciendo el tiempo de ducha y recogiendo agua de lluvia.",
+            "Arregla las fugas de agua y utiliza sistemas eficientes en tu hogar.",
+            "Evita el uso de agua embotellada y utiliza un filtro de agua.",
+            "Utiliza electrodomésticos eficientes energéticamente.",
+            "Utiliza el lavavajillas y la lavadora con carga completa.",
+            "No utilices el inodoro como papelera.",
+            "No dejes el grifo abierto mientras te lavas los dientes o te afeitas."
+        ],
+        "Protección del medio ambiente":
+        [
+            "Planta árboles en tu comunidad.",
+            "Apoya la conservación de la energía en el trabajo.",
+            "Participa en programas de reforestación.",
+            "Utiliza sistemas de captación de agua de lluvia.",
+            "Promueve la educación y sensibilización ambiental en tu comunidad.",
+            "Participa en programas de reciclaje.",
+            "Participa en programas de limpieza de playas y ríos.",
+            "Participa en programas de conservación de la biodiversidad.",
+            "Participa en programas de conservación de los océanos.",
+            "Participa en programas de conservación de los bosques.",
+            "Participa en programas de conservación de los humedales."
+        ],
+        "Reducción de emisiones en el hogar": 
+        [
+            "Reduce el consumo de energía en el hogar.",
+            "Apaga completamente los dispositivos electrónicos.",
+            "Desconecta los cargadores de dispositivos electrónicos cuando no los uses.",
+            "Utiliza sistemas de energía renovable en el hogar, como paneles solares.",
+            "Utiliza electrodomésticos eficientes energéticamente.",
+            "Aprovecha la luz natural en lugar de encender luces durante el día."
+        ],
+        "Estilo de vida sostenible": 
+        [
+            "Evita el uso excesivo de aire acondicionado y calefacción.",
+            "Evita el uso de aerosoles.",
+            "Reduce el consumo de agua embotellada.",
+            "Minimiza el uso de aparatos de climatización y utiliza métodos naturales para mantener frescos o cálidos los espacios.",
+            "Promueve el teletrabajo siempre que sea posible."
+        ],
+        "Gestión adecuada de residuos":
+        [
+            "Recupera y reutiliza el agua en el hogar.",
+            "Participa en programas de intercambio y donación de ropa y otros artículos.",
+            "Evita el despilfarro de alimentos.",
+            "Utiliza papel reciclado y configura la impresora para imprimir a doble cara.",
+            "Recicla y desecha correctamente los productos electrónicos y otros residuos peligrosos.",
+            "Recicla y desecha correctamente los residuos orgánicos."
+        ],
+        "Promoción de prácticas sostenibles":
+        [
+            "Infórmate sobre el impacto ambiental de las empresas y marcas antes de realizar compras.",
+            "Apoya iniciativas de conservación marina y evita el consumo de productos marinos en peligro de extinción o capturados de manera insostenible.",
+            "Apoya la investigación y desarrollo de tecnologías limpias y sostenibles.",
+            "Únete a grupos comunitarios y organizaciones medioambientales para trabajar en proyectos de acción climática y sensibilización."
+        ],
+        "Educación y concienciación":
+        [
+            "Educa a otros sobre la importancia de la reducción de la huella de carbono.",
+            "Comparte información y recursos sobre prácticas sostenibles en tu comunidad.",
+            "Participa en eventos y actividades relacionadas con el medio ambiente.",
+            "Promueve la educación ambiental en escuelas y comunidades."
+        ],
+        "Energía renovable y eficiencia energética":[
+            "Utiliza sistemas de energía renovable en el hogar, como paneles solares.",
+            "Utiliza sistemas de energía solar pasiva.",
+            "Utiliza sistemas de captación de agua de lluvia.",
+            "Utiliza electrodomésticos eficientes energéticamente."
+        ],
+        "Movilización y acción colectiva": [
+            "Únete a grupos de acción climática y sostenibilidad en tu comunidad.",
+            "Participa en manifestaciones y actividades relacionadas con el cambio climático.",
+            "Apoya políticas y medidas que promuevan una transición hacia una economía baja en carbono.",
+            "Vota por líderes y políticas que respalden la sostenibilidad y la reducción de emisiones."
+        ]
+    }
+
+    recomendaciones_totales = [recomendacion for lista in recomendaciones.values() for recomendacion in lista]
+    if len(recomendaciones_totales) > 25:
+        recomendaciones_totales = random.sample(recomendaciones_totales, 25)
+    return render(request, 'recomendaciones.html', {'recomendaciones': recomendaciones_totales})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # from pymongo import MongoClient
 # from django.conf import settings

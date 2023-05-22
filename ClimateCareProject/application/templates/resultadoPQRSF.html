@@ -1,0 +1,17 @@
+{% extends 'homeLogin.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'results.css' %}">
+</head>
+<div class="resultados-container">
+  <div class="cuadro-grande">
+    <div class="encabezados" style="background-color: green;">
+      <h1><dt>El resultado del PQRSF</dt></h1>
+    </div>
+    <div class="resultado">
+      <h3>Gracias por enviarnos la PQRSF, estaremos comunicándonos con usted para poder solucionar o dar retroalimentación de esta.</h3>
+    </div>
+  </div>
+</div>
+{% endblock content %}
