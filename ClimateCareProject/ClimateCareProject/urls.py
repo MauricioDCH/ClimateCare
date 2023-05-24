@@ -1,31 +1,3 @@
-"""ClimateCareProject URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from accounts import views as accountsViews 
-from django.conf.urls.static import static
-from django.conf import settings
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', accountsViews.home, name = 'homePage'),
-    path('homeLog/', accountsViews.homeLog, name='homePageLog'),
-    path('accounts', include('accounts.urls'), name = 'accounts'),
-    path('calculator/', include('calculator.urls'), name = 'calculatorV'),
-    path('classification/', include('artificialIntelligence.urls'), name = 'garbageClassification'),
-    path('application/', include('application.urls'), name = 'application'),
-]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+version https://git-lfs.github.com/spec/v1
+oid sha256:b779a3ac6e485da99709e3158a53a1c051c5785ddee84c4f837a62a0ef73054e
+size 1497

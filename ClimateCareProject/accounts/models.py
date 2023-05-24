@@ -1,8 +1,3 @@
-from django.db import models
-
-# Create your models here.
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    password1 = models.CharField(max_length=100)
-    password2 = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+version https://git-lfs.github.com/spec/v1
+oid sha256:cf0d05714fd4831d2bce1f9924e64660c081ffc3e0fd4bb852b367278ad07ee1
+size 583
